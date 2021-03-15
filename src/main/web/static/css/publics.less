@@ -1,0 +1,92 @@
+@link-color: #01AAED;
+@main-text-color: #333;
+@second-text-color: #999;
+
+
+html, body {
+  height: 100%;
+  background-color: #F0F2F5 !important;
+}
+
+body {
+  .fadein();
+}
+
+
+body::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: @link-color;
+  border-radius: 5px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #E8EAF0;
+}
+
+.fadein {
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @-webkit-keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  animation: fade-in 1s;
+  -webkit-animation: fade-in 1s
+}
+
+.container {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  margin: 20px 0 48px 0;
+
+  .logo {
+    display: inline-block;
+    font-size: 32px;
+    font-weight: 600;
+
+    background: linear-gradient(to right, #2383d6, #337ab7);
+    -webkit-background-clip: text;
+    color: transparent;
+
+    &:hover {
+      text-decoration: none;
+      color: transparent;
+    }
+  }
+
+  .user-area {
+    float: right;
+  }
+}
+
+.alert {
+  display: inline-block;
+  position: fixed !important;
+  top: 20px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  padding: 10px 20px;
+  width: fit-content;
+  box-sizing: content-box;
+  transition: all 1s;
+}
+
+

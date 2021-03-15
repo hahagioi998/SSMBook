@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title th:text="'个人中心 | ' + ${systemName}"></title>
+	<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon"/>
+	<link rel="stylesheet" th:href="@{/static/plugins/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/static/css/category.css}">
+</head>
+<body>
+<div class="container">
+
+	<div th:include="fragments::header"></div>
+
+	<div th:include="fragments::alert(${message},'info')"></div>
+
+	<div class="clearfix">
+		<!-- 用户信息 -->
+		<div style="width: 59%;float: left;">
+			<div class="panel panel-default">
+				<div class="panel-heading">用户信息</div>
+				<div class="panel-body">
+					<form th:action="@{/user/update}" method="post" th:with="user=${session.UserInfo}">
+						<input type="hidden" th:value="${user.id}" name="id">
+						<div class="form-group">
+							<label for="username">用户名</label>
+							<input type="text" th:value="${user.username}" id="username" name="username" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="nickname">昵称</label>
+							<input type="text" th:value="${user.nickname}" id="nickname" name="nickname" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="role">角色</label>
+							<input type="hidden" th:value="${user.role}" name="role" id="role" class="form-control">
+							<select class="form-control" onchange="document.getElementById(`role`).value=this.value">
+								<option th:each="role:${roleList}"
+								        th:value="${role.key()}" th:text="${role.value()}"
+								        th:selected="${user.role}==${role.key()}?'selected':'false'"></option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="description">个性签名</label>
+							<textarea rows="5" th:text="${user.description}" id="description" name="description"
+							          class="form-control"></textarea>
+						</div>
+						<div class="btn-group" role="group" aria-label="btn">
+							<button type="submit" class="btn btn-primary btn-block">更新</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- 修改密码 -->
+		<div style="width: 39%;float: right;">
+			<div class="panel panel-default">
+				<div class="panel-heading">修改密码</div>
+				<div class="panel-body">
+					<form th:action="@{/user/updatePassword}" method="post" th:with="user=${session.UserInfo}">
+						<input type="hidden" th:value="${user.id}" name="id">
+						<div class="form-group">
+							<label for="oldPassword">原密码</label>
+							<input type="password" name="oldPassword" id="oldPassword" th:value="${oldPassword}"
+							       placeholder="输入当前密码" required class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="newPassword">新密码</label>
+							<input type="password" name="newPassword" id="newPassword" th:value="${newPassword}"
+							       placeholder="请输入新密码" required class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="confirmPassword" class="hidden">确认新密码</label>
+							<input type="password" name="confirmPassword" id="confirmPassword" th:value="${newPassword}"
+							       placeholder="重复上面的新密码" required class="form-control">
+						</div>
+						<div class="btn-group" role="group" aria-label="btn">
+							<button type="submit" class="btn btn-primary btn-block" id="btn-change-pwd">更新</button>
+							<script type="text/javascript">
+				  let btn = document.getElementById(`btn-change-pwd`);
+				  btn.onclick = function () {
+					  let newPassword = document.getElementById(`newPassword`).value;
+					  let confirmPassword = document.getElementById(`confirmPassword`).value;
+					  if (newPassword !== confirmPassword) {
+						  alert("两次输入的新密码不一致！");
+						  return false;
+					  }
+					  return true;
+				  }
+							</script>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script th:src="@{/static/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/static/plugins/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>

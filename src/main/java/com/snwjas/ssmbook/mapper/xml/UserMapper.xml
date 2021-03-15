@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.snwjas.ssmbook.mapper.UserMapper">
+
+	<insert id="saveUser">
+		insert into user(username, password, nickname, description, role)
+		values (#{username}, #{password}, #{nickname}, #{description}, #{role})
+	</insert>
+
+	<update id="updateUser">
+		update user
+		set username    = #{username},
+		    password    = #{password},
+		    nickname    = #{nickname},
+		    description = #{description},
+		    role        = #{role}
+		where id = #{id}
+	</update>
+
+	<delete id="deleteUseById">
+		delete
+		from user
+		where id = #{userId}
+	</delete>
+
+	<select id="getByUsername" resultType="userEntity">
+		select *
+		from user
+		where username = #{username}
+	</select>
+
+
+</mapper>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title th:text="(${isAdd}?'新增书籍':'修改书籍') + ' | ' + ${systemName}"></title>
+	<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon"/>
+	<link rel="stylesheet" th:href="@{/static/plugins/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/static/css/book-add-alter.css}">
+</head>
+<body>
+<div class="container">
+	<div th:include="fragments::header"></div>
+	<div style="width: 700px;margin: 12px auto 0">
+		<form th:action="${isAdd}?@{/book/add}:@{/book/update}" method="post" th:object="${bookVO}">
+			<input type="hidden" th:field="*{id}" class="form-control">
+			<div class="form-group">
+				<label>ISBN</label>
+				<input type="text" th:field="*{isbn}" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>书名</label>
+				<input type="text" th:field="*{name}" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>作者</label>
+				<input type="text" th:field="*{author}" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>出版社</label>
+				<input type="text" th:field="*{press}" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>分类</label>
+				<input type="hidden" th:field="*{category.id}" id="category.id">
+				<input type="hidden" th:field="*{category.name}" id="category.name">
+				<select class="form-control" onchange="document.getElementById(`category.id`).value=this.value;
+					        document.getElementById(`category.name`).value=this.options[this.selectedIndex].text">
+					<option value="0" style="color:#999999">请选择分类</option>
+					<option th:each="categoryTmp:${categoryList}"
+					        th:value="${categoryTmp.id}" th:text="${categoryTmp.name}"
+					        th:selected="${!isAdd} and ${categoryTmp.id}==*{category.id}?'selected':'false'"></option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label>定价</label>
+				<input type="number" th:field="*{price}" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>数量</label>
+				<input type="number" th:field="*{count}" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>描述</label>
+				<textarea class="form-control" th:field="*{introduction}" rows="3"></textarea>
+			</div>
+
+			<button type="submit" class="btn btn-primary btn-lg btn-block" th:text="${isAdd}?'保存':'更新'"></button>
+		</form>
+	</div>
+</div>
+
+<script th:src="@{/static/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/static/plugins/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>

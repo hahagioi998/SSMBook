@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title th:text="'登录 | '+${systemName}"></title>
+	<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon"/>
+	<link rel="stylesheet" th:href="@{/static/plugins/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/static/css/login.css}">
+</head>
+<body>
+<div class="container">
+
+	<div th:include="fragments::alert(${message},'danger')"></div>
+
+	<div class="login-area">
+		<div class="title" th:text="${systemName}"></div>
+
+		<div class="login-box">
+			<form class="form-horizontal" th:action="@{/user/login}" method="post">
+				<div class="form-group">
+					<label for="username" class="glyphicon glyphicon-user"></label>
+					<input type="text" class="form-control" id="username" name="username" th:value="${username}"
+					       placeholder="用户名" required>
+				</div>
+				<div class="form-group">
+					<label for="password" class="glyphicon glyphicon-lock"></label>
+					<input type="password" class="form-control" id="password" name="password" th:value="${password}"
+					       placeholder="密码" required>
+				</div>
+				<div class="form-group">
+					<div class="checkbox">
+						<input style="margin-left: 0" type="checkbox" id="rememberMe" name="rememberMe" th:value="${rememberMe}">
+						<span style="margin-left: 20px">记住我</span>
+						<script type="text/javascript" th:inline="javascript">
+				let ele = document.getElementById("rememberMe");
+				if ([[${rememberMe}]] === 'true') {
+					ele.checked = true
+				}
+				ele.onclick = function () {
+					if (this.checked) {
+						this.value = "true";
+					} else {
+						this.value = "false";
+					}
+				};
+						</script>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-block">登录</button>
+				</div>
+			</form>
+			<p style="font-size: 12px">用户名：admin  密码：123456</p>
+		</div>
+	</div>
+
+
+</div>
+
+<script th:src="@{/static/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/static/plugins/bootstrap/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

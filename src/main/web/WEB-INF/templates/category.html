@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title th:text="(${isAdd}?'分类管理':'更新书籍') + ' | ' + ${systemName}"></title>
+	<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon"/>
+	<link rel="stylesheet" th:href="@{/static/plugins/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/static/css/category.css}">
+</head>
+<body>
+<div class="container">
+
+	<div th:include="fragments::header"></div>
+
+	<div th:include="fragments::alert(${message},'info')"></div>
+
+	<div class="clearfix">
+		<!-- 添加/更新 分类 -->
+		<div style="width: 39%;float: left;">
+			<div class="panel panel-default">
+				<div class="panel-heading" th:text="${isAdd}?'添加分类':'更新分类'"></div>
+				<div class="panel-body">
+					<form th:action="${isAdd}?@{/book/category/add}:@{/book/category/update}" method="post"
+					      th:object="${categoryVO}">
+						<input type="hidden" name="currentPage" th:value="${currentPage}">
+						<input type="hidden" th:field="*{id}">
+						<div class="form-group">
+							<label>名称</label>
+							<input type="text" th:field="*{name}" class="form-control">
+						</div>
+						<div class="form-group">
+							<label>描述</label>
+							<textarea rows="3" th:field="*{description}" class="form-control"></textarea>
+						</div>
+
+						<div class="btn-group" role="group" aria-label="btn">
+							<button type="submit" class="btn btn-primary" th:text="${isAdd}?'保存':'更新'"></button>
+							<a th:href="@{/book/category/list/}+${currentPage}" class="btn btn-default" th:if="${!isAdd}">返回添加</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- 分类列表 -->
+		<div style="width: 59%;float: right;">
+			<div class="panel panel-default">
+				<div class="panel-heading">分类列表</div>
+				<div class="panel-body">
+					<!-- 分类列表 -->
+					<div class="table-responsive">
+						<table class="table table-bordered">
+							<thead>
+							<tr>
+								<th style="width: 50px">编号</th>
+								<th style="width: 160px">名称</th>
+								<th style="width: 100%">描述</th>
+								<th style="width: 95px">操作</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr th:each="category:${categoryList}">
+								<td th:text="${category.id}"></td>
+								<td th:text="${category.name}"></td>
+								<td th:text="${category.description}"></td>
+								<td>
+									<a class="btn btn-primary btn-xs"
+									   th:href="@{/book/category/list/}+${currentPage}+@{/update/}+${category.id}">编辑</a>
+									<form th:action="@{/book/category/delete}" method="post" style="display: inline-block">
+										<input type="hidden" name="categoryId" th:value="${category.id}">
+										<button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('你要删除该分类吗？')">删除
+										</button>
+									</form>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- 分页 -->
+					<div>
+						<nav aria-label="Page navigation">
+							<ul class="pager" style="margin: 0"
+							    th:with="hasPre=${currentPage>1},hasNext=${currentPage<totalPages}">
+								<li th:class="${hasPre}?'':'disabled'">
+									<a th:href="@{/book/category/list/}+${currentPage-1}" th:if="${hasPre}">上一页</a>
+									<span th:if="${!hasPre}">上一页</span>
+								</li>
+								<li th:class="${hasNext}?'':'disabled'">
+									<a th:href="@{/book/category/list/}+${currentPage+1}" th:if="${hasNext}">下一页</a>
+									<span th:if="${!hasNext}">下一页</span>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script th:src="@{/static/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/static/plugins/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>

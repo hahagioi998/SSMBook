@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.snwjas.ssmbook.mapper.BookMapper">
+	<!--
+		如数据库字段与JavaBean属性不一致，需配置resultMap
+	-->
+
+	<insert id="saveBook" parameterType="bookEntity">
+		insert into book (id, isbn, name, author, press, price, introduction, count, category_id)
+		values (#{id}, #{isbn}, #{name}, #{author}, #{press}, #{price}, #{introduction}, #{count}, #{categoryId});
+	</insert>
+
+	<delete id="deleteBookById">
+		delete
+		from book
+		where id = #{bookId};
+	</delete>
+
+	<update id="updateBook" parameterType="bookEntity">
+		update book
+		set isbn=#{isbn}
+			, name=#{name}
+			, author=#{author}
+			, press=#{press}
+			, price=#{price}
+			, introduction=#{introduction}
+			, count =#{count}
+			, category_id=#{categoryId}
+		where id = #{id};
+	</update>
+
+	<select id="getBookById" resultType="bookEntity">
+		select *
+		from book
+		where id = #{bookId};
+	</select>
+
+	<select id="listBooksByLikeAndLimit" resultType="bookEntity">
+		select *
+		from book
+		<where>
+			<if test="keyword != null">
+				name like concat('%', #{keyword}, '%')
+				or author like concat('%', #{keyword}, '%')
+			</if>
+		</where>
+		limit #{offset},#{limit};
+	</select>
+
+	<select id="countByLike" resultType="int">
+		select count(*)
+		from book
+		<where>
+			<if test="keyword != null">
+				name like concat('%', #{keyword}, '%')
+				or author like concat('%', #{keyword}, '%')
+			</if>
+		</where>
+	</select>
+
+
+</mapper>

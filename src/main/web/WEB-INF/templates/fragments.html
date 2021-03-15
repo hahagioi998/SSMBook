@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- 头部 -->
+<div th:fragment="header">
+	<div class="header">
+
+		<a th:href="@{/book}" class="logo">
+			<span th:text="${systemName}"></span>
+		</a>
+
+		<div class="btn-group user-area">
+			<button class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span th:with="nickname=${session.UserInfo.nickname}"
+				      th:text="${nickname}==null?${session.UserInfo.username}:${nickname}"></span>
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li><a th:href="@{/user/profile}">个人中心</a></li>
+				<li>
+					<a href="#" onclick="document.getElementById('logoutForm').submit()">
+						<form th:action="@{/user/logout}" method="post" id="logoutForm">退出登录</form>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<!-- 提示 -->
+<!-- type: success | info | warning | danger -->
+<div th:fragment="alert(message,type)">
+	<div th:class="'alert alert-'+${type}" role="alert" id="alert" th:if="${message}!=null">
+		<span th:text="${message}"></span>
+		<script type="text/javascript">
+		setTimeout(function () {
+			let ele = document.getElementById(`alert`);
+			ele.setAttribute('style', 'visibility: hidden')
+		}, 3000);
+		</script>
+	</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.snwjas.ssmbook.mapper.CategoryMapper">
+
+	<insert id="saveCategory" parameterType="categoryEntity">
+		insert into category(name, description)
+		values (#{name}, #{description})
+	</insert>
+
+	<delete id="deleteCategoryById">
+		delete
+		from category
+		where id = #{categoryId}
+	</delete>
+
+	<update id="updateCategory" parameterType="categoryEntity">
+		update category
+		set name=#{name}
+			, description=#{description}
+		where id = #{id}
+	</update>
+
+	<select id="listCategory" resultType="categoryEntity">
+		select *
+		from category
+	</select>
+
+	<select id="listCategoryByLimit" resultType="categoryEntity">
+		select *
+		from category
+		limit #{offset},#{limit}
+	</select>
+
+	<select id="getCategoryById" resultType="categoryEntity">
+		select *
+		from category
+		where id = #{categoryId}
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*)
+		from category
+	</select>
+</mapper>

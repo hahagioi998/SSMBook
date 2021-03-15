@@ -1,0 +1,72 @@
+/* 常量 */
+/* 公共样式 */
+html,
+body {
+  height: 100%;
+  background-color: #F0F2F5 !important;
+}
+body {
+  animation: fade-in 1s;
+  -webkit-animation: fade-in 1s;
+}
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+/*  网页主体滚动条样式 */
+body::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+body::-webkit-scrollbar-thumb {
+  background: #01AAED;
+  border-radius: 5px;
+}
+body::-webkit-scrollbar-track {
+  background: #E8EAF0;
+}
+.fadein {
+  animation: fade-in 1s;
+  -webkit-animation: fade-in 1s;
+}
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.layui-container {
+  padding: 0;
+}
+.link-color {
+  color: #01AAED !important;
+}
+.main-text-color {
+  color: #333 !important;
+}
+.second-text-color {
+  color: #999 !important;
+}
+/*# sourceMappingURL=publics.css.map */
